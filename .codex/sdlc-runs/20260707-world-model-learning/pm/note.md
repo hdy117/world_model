@@ -40,3 +40,19 @@ Developer 必须等待用户批准后才能落地最终学习资料和代码示�
 ## Resume Point
 
 下一步：由 Architect 产出 run-local 设计文档，然后主线程汇总 PM 和 Architect 结果，请用户审批是否进入最终材料生成。
+
+## PM Update - 2026-07-07
+
+用户随后要求：`UnderstandingDeepLearning_02_09_26_C.pdf 参考这本书写文档`。该指令已按审批门通过处理，范围限定为：参考本地 PDF 生成中文 World Model 学习导读，并按需补充最小可运行教学代码；不包含大规模工程重构。
+
+新增约束：
+
+- 参考来源为 `UnderstandingDeepLearning_02_09_26_C.pdf`，书名 *Understanding Deep Learning*，作者 Simon J.D. Prince，PDF version 2026-02-08，541 pages。
+- 文档只做中文总结、章节映射和页码引用，不大段复制原书文字。
+- 最终交付应包含根目录中文 Markdown 文档、必要的代码示例、运行命令和验证结果。
+
+当前实施产物：
+
+- `WorldModel学习路线_参考UDL.md`
+- `world_model_toy_demo.py`
+- `.codex/sdlc-runs/20260707-world-model-learning/developer/D-01/note.md`
