@@ -1,0 +1,19 @@
+\begin{table}
+    \caption{\Paragraphnoskip{Novel-view video synthesis} \methodname shows comparable to superior noel-view video synthesis performance on the \texttt{iphone} dataset \cite{gao2022dycheck}. EPE (endpoint error) measures optical flow error between the generated and ground truth videos and indicates scene motion reconstruction. \textbf{Bold} indicates best results.}
+    \label{tab:nvs}
+    \centering
+    \begin{adjustbox}{max width=\columnwidth}
+        \begin{tabular}{l c c c c c c c}
+            \toprule
+            Method & \makecell{mPSNR \\ \up} & \makecell{mSSIM \\ \up} & \makecell{mLPIPS \\ \down} & \makecell{PSNR \\ \up} & \makecell{SSIM \\ \up} & \makecell{LPIPS \\ \down} & \makecell{EPE \\ \down} \\
+            \midrule
+            ReCamMaster \cite{bai2025recammaster} & 10.84 & 0.444 & 0.692 & 10.96 & 0.262 & 0.755 & 4.681 \\
+            CamCloneMaster \cite{luo2025camclonemaster} & 11.14 & 0.444 & 0.651 & 11.17 & 0.260 & 0.713 & 4.318 \\ 
+            TrajectoryCrafter \cite{yu2025trajcraft} & 13.82 & \textbf{0.492} & 0.569 & 13.06 & \textbf{0.320} & 0.656 & 2.375 \\
+            EX-4D \cite{hu2025ex4d} & 12.85 & 0.479 & 0.596 & 12.64 & 0.305 & 0.669 & 4.269 \\
+            GEN3C \cite{ren2025gen3c} & 12.19 & 0.447 & 0.608 & 12.06 & 0.260 & 0.679 & 3.019 \\
+            \rowcolor{gray!10} \textbf{\methodname (ours)} & \textbf{14.09} & 0.480 & \textbf{0.461} & \textbf{14.14} & 0.310 & \textbf{0.514} & \textbf{1.142} \\
+            \bottomrule
+        \end{tabular}
+    \end{adjustbox}
+\end{table}

@@ -1,0 +1,19 @@
+\begin{table}
+    \caption{\Paragraphnoskip{Camera control accuracy and 3D consistency} \methodname consistently shows the most accurate camera control compared to baselines with superior rotation, translation, and intrinsics errors. Our method also significantly outperforms baselines in per-frame 3D consistency with the lowest reprojection error under SuperGlue (RE@SG) \cite{sarlin2020superglue, detone2018superpoint, kant2025pippo}. \textbf{Bold} indicates best results.}
+    \label{tab:camera_accuracy}
+    \centering
+    \begin{adjustbox}{max width=\columnwidth}
+        \begin{tabular}{l c c c c}
+            \toprule
+            Method & \makecell{Translation \\ error \down} & \makecell{Rotation \\ error \down} & \makecell{Intrinsics \\ error \down} & \makecell{RE@SG \\ \down} \\
+            \midrule
+            ReCamMaster \cite{bai2025recammaster} & 1.574 & 12.79 & 11.16 & 23.66 \\
+            CamCloneMaster \cite{luo2025camclonemaster} & 2.132 & 23.77 & 6.422 & 23.38 \\
+            TrajectoryCrafter \cite{yu2025trajcraft} & 1.434 & 6.838 & 6.671 & 120.5 \\
+            EX-4D \cite{hu2025ex4d} & 1.325 & 5.941 & 5.182 & 13.11 \\
+            GEN3C \cite{ren2025gen3c} & 1.309 & 4.751 & 5.085 & 12.99 \\
+            \rowcolor{gray!10} \textbf{\methodname (ours)} & \textbf{1.251} & \textbf{4.647} & \textbf{4.927} & \textbf{7.504} \\
+            \bottomrule
+        \end{tabular}
+    \end{adjustbox}
+\end{table}

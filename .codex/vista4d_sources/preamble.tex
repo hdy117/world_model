@@ -1,0 +1,113 @@
+%% This file contains a number of tweaks that are typically applied to the main document.
+%% They are not enabled by default, but can be enabled by uncommenting the relevant lines.
+
+%%
+%% Inline annotations; for predefined colors, refer to "dvipsnames" in the xcolor package:
+%% https://tinyurl.com/overleaf-colors
+%%
+\newcommand{\red}[1]{{\color{red}#1}}
+\newcommand{\todo}[1]{{\color{red}#1}}
+\newcommand{\TODO}[1]{\textbf{\color{red}[TODO: #1]}}
+
+
+%%% NEW PACKAGES
+
+\usepackage{float}
+\usepackage{siunitx}
+\usepackage{xspace}
+\usepackage{adjustbox}
+\usepackage{multirow}
+\usepackage{color, colortbl}
+\usepackage{makecell}
+
+\usepackage[accsupp]{axessibility}
+
+\newcommand{\methodname}{Vista4D\xspace}
+\newcommand{\website}{https://eyeline-labs.github.io/Vista4D}
+\newcommand{\projectpage}{\href{\website}{project page}}
+
+\newcommand{\Paragraphnoskip}[1]{\noindent \textbf{#1.}}
+\newcommand{\Paragraph}[1]{\smallskip\noindent \textbf{#1.}}
+
+\newcommand{\ning}[1]{\textcolor{red}{\textbf{Ning:} #1}}
+\newcommand{\jordan}[1]{\textcolor{gray}{\textbf{J:} #1}}
+\newcommand{\yash}[1]{\textcolor{cyan}{\textbf{Y:} #1}}
+\newcommand{\zhizheng}[1]{\textcolor{teal}{\textbf{Z:} #1}}
+\newcommand{\yiwei}[1]{\textcolor{orange}{\textbf{YZ:} #1}}
+
+\newcommand{\R}{\mathbb{R}}
+
+\newcommand{\NN}{\mathcal{N}}
+\newcommand{\LL}{\mathcal{L}}
+
+\renewcommand{\vec}{\mathbf}
+\newcommand{\src}{\mathrm{src}}
+\newcommand{\tgt}{\mathrm{tgt}}
+\newcommand{\gen}{\mathrm{gen}}
+\newcommand{\rdr}{\mathrm{rdr}}
+\newcommand{\wld}{\mathrm{wld}}
+\newcommand{\dyn}{\mathrm{dyn}}
+\newcommand{\stc}{\mathrm{stc}}
+\newcommand{\img}{\mathrm{img}}
+\newcommand{\wlddyn}{\mathrm{wld, dyn}}
+\newcommand{\wldstc}{\mathrm{wld, stc}}
+\newcommand{\wldtmp}{\mathrm{wld, tmp}}
+\newcommand{\srctgt}{\mathrm{src \to tgt}}
+\newcommand{\srctgtsrc}{\mathrm{src \to tgt \to src}}
+\newcommand{\tgtsrc}{\mathrm{tgt \to src}}
+\newcommand{\tgtsrctgt}{\mathrm{tgt \to src \to tgt}}
+
+\newcommand{\tss}{\textsuperscript}
+\newcommand{\specialfootnotetext}[1]{
+  \begingroup
+  \def\thefootnote{\fnsymbol{footnote}}  % Use symbol for footnote label
+  \footnotetext[0]{#1}  % Use 0 as manual numbering, won't appear in main body
+  \endgroup
+}
+
+\newcommand{\up}{$\Uparrow$}
+\newcommand{\down}{$\Downarrow$}
+
+\newcommand{\textbi}[1]{\textbf{\textit{#1}}}
+
+\setlength{\textfloatsep}{10pt plus 1pt minus 2pt}
+\setlength{\dbltextfloatsep}{10pt plus 2pt minus 2pt}
+% \setlength{\floatsep}{10pt plus 1pt minus 2pt}
+% \setlength{\dblfloatsep}{10pt plus 2pt minus 2pt}
+\setlength{\abovecaptionskip}{7pt plus 1pt minus 2pt}
+
+%%
+%% work harder in optimizing text layout. Typically shrinks text by 1/6 of page, enable
+%% it at the very end of the writing process, when you are just above the page limit
+%%
+\usepackage{microtype}
+
+%%
+%% fine-tune paragraph spacing
+%%
+% \renewcommand{\paragraph}[1]{\vspace{.5em}\noindent\textbf{#1.}}
+
+%%
+%% globally adjusts space between figure and caption
+%%
+% \setlength{\abovecaptionskip}{.5em}
+
+
+%%
+%% Allows "the use of \paper to refer to the project name"
+%% with automatic management of space at the end of the word
+%%
+% \usepackage{xspace}
+% \newcommand{\paper}{ProjectName\xspace}
+
+%%
+%% Commonly used math definitions
+%%
+% \DeclareMathOperator*{\argmin}{arg\,min}
+% \DeclareMathOperator*{\argmax}{arg\,max}
+
+%%
+%% Tigthen underline
+%%
+% \usepackage{soul}
+% \setuldepth{foobar}

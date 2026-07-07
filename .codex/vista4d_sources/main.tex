@@ -1,0 +1,99 @@
+% CVPR 2026 Paper Template; see https://github.com/cvpr-org/author-kit
+\PassOptionsToPackage{numbers,sort&compress}{natbib}
+
+\documentclass[10pt,twocolumn,letterpaper]{article}
+
+%%%%%%%%% PAPER TYPE  - PLEASE UPDATE FOR FINAL VERSION
+% \usepackage{cvpr}              % To produce the CAMERA-READY version
+% \usepackage[review]{cvpr}      % To produce the REVIEW version
+
+\usepackage[pagenumbers]{cvpr} % To force page numbers, e.g. for an arXiv version
+
+% Import additional packages in the preamble file, before hyperref
+\input{preamble}
+
+% It is strongly recommended to use hyperref, especially for the review version.
+% hyperref with option pagebackref eases the reviewers' job.
+% Please disable hyperref *only* if you encounter grave issues,
+% e.g. with the file validation for the camera-ready version.
+%
+% If you comment hyperref and then uncomment it, you should delete *.aux before re-running LaTeX.
+% (Or just hit 'q' on the first LaTeX run, let it finish, and you should be clear).
+\definecolor{cvprblue}{rgb}{0.21,0.49,0.74}
+\usepackage[pagebackref,breaklinks,colorlinks,allcolors=cvprblue]{hyperref}
+\setcitestyle{numbers,sort&compress}
+
+%%%%%%%%% PAPER ID
+\def\paperID{15091} % *** Enter the Paper ID here
+\def\confName{CVPR}
+\def\confYear{2026}
+
+%%%%%%%%% TITLE
+\title{\methodname: Video Reshooting with 4D Point Clouds\vspace{-0.5em}}
+
+%%%%%%%%% AUTHORS
+
+\author{
+    Kuan Heng Lin\tss{1,3$\dagger$}\quad
+    Zhizheng Liu\tss{1,4$\dagger$}\quad
+    Pablo Salamanca\tss{1,2}\quad
+    Yash Kant\tss{1,2}\\
+    Ryan Burgert\tss{1,2,5$\dagger$}\quad
+    Yuancheng Xu\tss{1,2}\quad
+    Koichi Namekata\tss{1,2,6$\dagger$}\quad
+    Yiwei Zhao\tss{2}\\
+    Bolei Zhou\tss{4}\quad
+    Micah Goldblum\tss{3}\quad
+    Paul Debevec\tss{1,2}\quad
+    Ning Yu\tss{1,2}\vspace*{0.5em}\\
+    {
+        \normalsize
+        \tss{1}Eyeline Labs\quad
+        \tss{2}Netflix\quad
+        \tss{3}Columbia University\quad
+        \tss{4}UCLA\quad
+        \tss{5}Stony Brook University\quad
+        \tss{6}University of Oxford\vspace*{0.5em}
+    }
+}
+
+\begin{document}
+
+\twocolumn[{
+    \renewcommand\twocolumn[1][]{#1}
+    \maketitle
+    \vspace{-1.5em}
+    \centerline{\large\textbf{\texttt{\textcolor[RGB]{0,127,255}{\href{https://eyeline-labs.github.io/Vista4D}{eyeline-labs.github.io/Vista4D}}}}}
+    \vspace{1.0em}
+    \begin{center}
+        \centering
+        \captionsetup{type=figure}
+        \makebox[\linewidth][c]{\includegraphics[width=7.25in]{figures/mid_res/teaser.pdf}}
+        \captionof{figure}{\Paragraphnoskip{4D-grounded video reshooting} Given an input video, \methodname re-synthesizes the scene with the same dynamics from different camera trajectories and viewpoints by grounding the input video and target cameras in a 4D point cloud. \methodname is robust to point cloud artifacts and generalizes to real-world applications such as 4D scene recomposition and dynamic scene expansion.}
+        \vspace{-0.5em}
+        \label{fig:teaser}
+    \end{center}
+    \vspace{1em}
+    \noindent\makebox[0.5\columnwidth][l]{\rule{0.5\columnwidth}{0.4pt}}\\
+    \vspace{-0.5em}
+    \footnotesize{\tss{$\dagger$}Work done during an internship at Eyeline Labs.}
+    \vspace{1em}
+}]
+
+\input{sec/0_abstract}
+\input{sec/1_intro}
+\input{sec/2_related}
+\input{sec/3_method}
+\input{sec/4_results}
+\input{sec/5_conclusion}
+{
+    \small
+    % \bibliographystyle{ieeenat_fullname}
+    \bibliographystyle{unsrtnat}
+    \bibliography{main}
+}
+
+% WARNING: do not forget to delete the supplementary pages from your submission
+\input{sec/X_suppl}
+
+\end{document}

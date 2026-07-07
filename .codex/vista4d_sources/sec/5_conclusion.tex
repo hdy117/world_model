@@ -1,0 +1,13 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+We have presented \methodname, a video reshooting framework that synthesizes the dynamic scene given by an input source video from novel camera trajectories and viewpoints. By explicitly preserving seen content from the source video with a temporally-persistent 4D point cloud and training a video diffusion model with 4D-reconstructed dynamic multiview data, our method is robust to real-world point cloud artifacts under a wide variety of input videos and target cameras. Extensive quantitative evaluations, qualitative comparisons, and the user study validate our method's 4D consistency, camera control accuracy, and video fidelity compared to state-of-the-art baselines. \methodname also generalizes to real-world applications such as dynamic scene expansion, 4D scene recomposition, and long video inference with memory.
+
+\Paragraph{Limitations}
+Though \methodname is robust to a wide variety of real-world videos and target cameras with 4D reconstruction point cloud artifacts, it lacks user control over how closely to follow a potentially imperfect point cloud as opposed to utilizing its video model prior to correct geometry. A promising extension for our work is to add a control mechanism which `interpolates' between the explicit prior (point cloud) and implicit prior (source video and camera embedding) that users can decide based on their use case.
+
+\Paragraph{Broader impacts}
+As a method building off of a video diffusion model, \methodname inherits the ethical questions which come with large generative models. Enabling camera control over any video can have a profound effect on the emotional impact and public perception of the video, raising ethical concerns about content ownership and transformative work despite the creative possibilities our method opens.
+
+\Paragraph{Acknowledgements}
+We would like to thank Aleksander Ho\l y\'nski, Wenqi Xian, Dan Zheng, Mohsen Mousavi, Li Ma, and Lingxiao Li for their technical discussions; Ryan Tabrizi, Tianyi Lorena Yan, and Shreyas Havaldar for appearing in our demo videos;  Lukas Lepicovsky, David Rhodes, Nhat Phong Tran, Dacklin Young, and Johnson Thomasson for their production support; Jeffrey Shapiro, Ritwik Kumar, and Hossein Taghavi for their executive support; Jennifer Lao and Lianette Alnaber for their operational support.

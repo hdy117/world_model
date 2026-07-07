@@ -1,0 +1,24 @@
+\begin{table*}
+    \caption{\Paragraphnoskip{Video fidelity} \methodname consistently outperform point-cloud-conditioned (explicit-prior) baselines for the video fidelity metrics FID, FVD, CLIP-T, and metrics from VBench \cite{huang2024vbench} and VBench-2.0 \cite{zheng2025vbench2}. Implicit-prior methods (ReCamMaster and CamCloneMaster) outperform our method in some metrics due to their low camera control accuracy (Table \ref{tab:camera_accuracy}) that result in output videos with similar, usually more static, cameras to the input video which produces better FID, FVD, and VBench consistency metrics. \textbf{Bold} indicates best results.}
+    \label{tab:fidelity}
+    \centering
+    \begin{adjustbox}{max width=\textwidth}
+        \begin{tabular}{l c c c c c c c c c c}
+            \toprule
+            \multirow{2}{*}{Method} & \multirow{2}{*}{\makecell{Camera \\ control}} & \multirow{2}{*}{\makecell{FID \\ \down}} & \multirow{2}{*}{\makecell{FVD \\ $\times 10^3$ \down}} & \multirow{2}{*}{\makecell{CLIP-T \\ \up}} & \multicolumn{6}{c}{VBench \cite{huang2024vbench} \& VBench-2.0 \cite{zheng2025vbench2}} \\
+            \cmidrule(r){6-11}
+            & & & & & \makecell{Aesthetic \\ quality \up} & \makecell{Imaging \\ quality \up} & \makecell{Subject \\ consistency \up} & \makecell{Background \\ consistency \up} & \makecell{Temporal \\ style \up} & \makecell{Human \\ anatomy \up} \\
+            \midrule
+
+            ReCamMaster \cite{bai2025recammaster} & Extrinsics & \textbf{94.15} & \textbf{1.203} & 0.319 & 0.552 & 0.701 & \textbf{0.913} & \textbf{0.934} & 0.243 & 0.759 \\
+            CamCloneMaster \cite{luo2025camclonemaster} & Ref. video & 101.4 & 1.406 & 0.321 & 0.560 & 0.709 & 0.886 & 0.915 & 0.247 & 0.711 \\
+            \midrule
+            
+            TrajectoryCrafter \cite{yu2025trajcraft} & Point cloud & 125.6 & 1.640 & 0.305 & 0.509 & 0.650 & 0.854 & 0.906 & 0.241 & 0.790 \\
+            EX-4D \cite{hu2025ex4d} & Point cloud & 124.6 & 1.481 & 0.296 & 0.480 & 0.660 & 0.849 & 0.894 & 0.226 & 0.687 \\
+            GEN3C \cite{ren2025gen3c} & Point cloud & 113.5 & 1.441 & 0.318 & 0.519 & 0.660 & 0.857 & 0.913 & 0.245 & 0.775 \\
+            \rowcolor{gray!10} \textbf{\methodname (ours)} & Point cloud & 105.4 & 1.418 & \textbf{0.326} & \textbf{0.567} & \textbf{0.716} & 0.883 & 0.916 & \textbf{0.253} & \textbf{0.857} \\
+            \bottomrule
+        \end{tabular}
+    \end{adjustbox}
+\end{table*}

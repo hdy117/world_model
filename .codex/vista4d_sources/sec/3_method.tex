@@ -1,0 +1,48 @@
+\section{4D-grounded video reshooting}
+\label{sec:method}
+
+Given an input source video $\mathbf{X}^\src$, we first build a 4D point cloud via 4D reconstruction with temporally-persistent static pixels defined by static pixel masks from segmentation. We then render the point cloud from the target cameras and jointly condition the finetuned video diffusion model on the source video and point cloud render, producing the output video. Section \ref{sec:method:point_cloud} builds the temporally-persistent point cloud; Section \ref{sec:method:multiview} explains the importance of training with noisily-reconstructed multiview data; Section \ref{sec:method:source} discusses joint conditioning of source videos and point cloud renders; and Section \ref{sec:method:details} describes data and training details. Our method is illustrated in Figure \ref{fig:pipeline}.
+
+\subsection{Building a temporally-persistent 4D point cloud}
+\label{sec:method:point_cloud}
+
+To explicitly preserve seen content in the source video and provide more accurate camera control especially when target cameras have little per-frame overlap with the source video, we build a temporally-persistent 4D point cloud. We first use 4D reconstruction \cite{wang2025pi3, lan2025stream3r} to obtain depths $\mathbf{D}^\src$, camera extrinsics $\mathbf{T}^\src$, and camera intrinsics $\mathbf{K}^\src$, and we use segmentation \cite{ravi2024sam2, ren2024groundingdino, ren2024groundedsam} to obtain a static pixel mask $\mathbf{M}^\stc$. We then lift the source video into a world-space per-frame 3D point cloud
+\begin{equation}\label{eqn:img_to_wld}
+    \vec{P} = \Omega\left( \Phi^{-1}\left( [\vec{X}^\src, \vec{D}^\src], \vec{K}^\src \right), \vec{T}^\src \right) ,
+\end{equation}
+where $\Phi^{-1}$ and $\Omega$ are the inverse perspective projection and world-space transformation. Since the per-frame point cloud $\vec{P}$ is grounded in world space, we use $\mathbf{M}^\stc$ to make static pixels persistent across all frames to incorporate explicit 4D context in our point cloud rendering, obtaining the temporally-persistent point cloud $\overline{\mathbf{P}}$. Then, we render $\overline{\mathbf{P}}$ from the target cameras, obtaining the point cloud render $\vec{X}^\srctgt$ and its alpha mask $\vec{M}^\srctgt$ as temporally persistent, 4D-grounded priors for the video diffusion model.
+
+\subsection{Training with noisy multiview data}
+\label{sec:method:multiview}
+
+So far, generating our 4D point cloud requires source-target video pairs: The source video builds the temporally-persistent point cloud, and the target video defines the target cameras. Because 4D reconstruction methods are imperfect, the point cloud render during inference often contain \emph{geometric artifacts} when the target cameras deviate far from the frontal view of the lifted point cloud. This is especially true for dynamic pixels where depth estimators cannot leverage multiview geometry constraints from moving cameras. Existing methods \cite{yu2025trajcraft, ren2025gen3c, hu2025ex4d} instead train with artifact-free point clouds, which essentially simplify video reshooting to inpainting. For example, as illustrated in Figure \ref{fig:multiview} (a), TrajectoryCrafter \cite{yu2025trajcraft} applies double-reprojection to monocular videos to obtain paired data of point cloud renders and target videos, which always views the depth maps from their frontal, artifact-free view. In contrast, we train with multiview dynamic-scene videos with 4D-reconstructed depths and cameras, which results in spatially mismatching point clouds artifacts compared to the target video as shown in Figure \ref{fig:multiview} (b). Thus, our method moves beyond inpainting and instead corrects imperfect point cloud geometry.
+
+As real-world multiview video datasets with dynamic scenes are rare and small in scale, we use synthetic multiview dynamic videos to train our model as in \cite{bai2025recammaster}. Moreover, to ensure the model is generalizable to real-world video inputs while being robust to noisy 4D reconstruction, we train with a mix of multiview synthetic and real-world monocular data. For monocular data, following TrajectoryCrafter \cite{yu2025trajcraft}, we first render the point cloud of the target video from heuristic-generated source cameras to produce $\vec{X}^\tgtsrc$. Then, we render $\vec{X}^\tgtsrc$ back to the original target cameras to produce the double-reprojected point cloud render.
+
+\subsection{Conditioning on source videos and point clouds}
+\label{sec:method:source}
+
+Point cloud artifacts during real-world inference obfuscate not only geometry but also appearance information from the source video. Thus, while some existing methods only condition on point cloud renders \cite{ren2025gen3c, hu2025ex4d}, we also condition on source videos to utilize video diffusion model priors for transferring geometric and appearance information like implicit-prior methods do \cite{bai2025recammaster, luo2025camclonemaster}. Unlike TrajectoryCrafter's cross-attention injection of source videos \cite{yu2025trajcraft}, we concatenate the patchified latent tokens of the source video and point cloud render with the noisy target latent tokens along the frame dimension. We find that in-context conditioning best preserves source video content and is thus more robust to point cloud artifacts, which we ablate in Supplementary \ref{supp:ablations}.
+
+Thus, given the source video $\mathbf{X}^\src$, point cloud render $\mathbf{X}^\srctgt$ and its alpha mask $\vec{M}^\srctgt$, and target cameras $\vec{C}^\tgt = \left( \vec{K}^\tgt, \vec{T}^\tgt \right)$, we finetune a video diffusion transformer $\boldsymbol{\epsilon}_\theta$ to generate the target video $\vec{X}^\tgt$ with the flow matching objective
+\begin{equation}
+    \LL = \left\lVert \boldsymbol{\epsilon}_\theta \left( \vec{X}^\tgt_t, \vec{X}^\srctgt, \vec{M}^\srctgt, \vec{X}^\src, \vec{C}^\tgt, t \right) - \vec{V} \right\rVert ,
+\end{equation}
+where $\vec{V} = \vec{X}^\tgt - \boldsymbol{\epsilon}$ and $\vec{X}^\tgt_t$ is the noisy target video at timestep $t$ by sampled Gaussian $\boldsymbol{\epsilon}$. We inject the target cameras $\vec{C}^\tgt$ as Pl\"{u}cker embeddings \cite{kuang2024collaborative, he2025cameractrl, xu2025virtuallybeing} via zero-initialized linear projections, with an identity-initialized projection after self-attention, inspired by ReCamMaster \cite{bai2025recammaster}. We provide model architecture details in Supplementary \ref{supp:architecture}.
+
+Conditioning the model with both the source video and point cloud render allows the model to learn to propagate geometry and appearance information from the source to the output video. For monocular training videos without a ground-truth $\vec{X}^\src$, we condition the model on $\vec{X}^\tgtsrc$ as an occluded source video with its alpha mask to still learn this propagation.
+
+\input{tables/camera_3d}
+
+\input{tables/nvs}
+
+\input{tables/fidelity}
+
+\input{tables/user_study}
+
+\subsection{Training details and datasets}
+\label{sec:method:details}
+
+For the base video generation model, we build off of \texttt{Wan2.1-T2V-14B} \cite{wan2025}, a pretrained text-to-video flow matching \cite{lipman2023flowmatching} video diffusion transformer \cite{peebles2023dit}. We finetune the model at a resolution of $672 \times 384$ for \num[group-separator={,}]{30000} steps, then at $1280 \times 720$ for \num[group-separator={,}]{300} steps, both with $49$-frame videos, a global batch size of $8$, and the AdamW optimizer with a learning rate of \num{1e-5}. We train the patchify layers for $\vec{X}^\src$ and $\vec{X}^\srctgt$, self-attention layers, camera encoders, and projectors, while freezing all other parameters.
+
+\Paragraph{Datasets} For multiview time-synchronized videos, we adopt the synthetic MultiCamVideo dataset from ReCamMaster \cite{bai2025recammaster}, and we run 4D reconstruction across all views with STream3R \cite{lan2025stream3r}. For real-world monocular videos, we adopt a 60K subset from \texttt{OpenVidHD-0.4M} \cite{nan2025openvid} and run 4D reconstruction with $\pi^3$ \cite{wang2025pi3}. For segmenting static pixels, inspired by Uni4D \cite{yao2025uni4d}, we obtain semantic classes with RAM \cite{zhang2023ram}, filter for dynamic subjects/nouns with \texttt{Llama-3.1-8B-Instruct} \cite{llama2024llama3}, and segment per-frame dynamic pixels with Grounded SAM 2 \cite{ravi2024sam2, ren2024groundingdino, ren2024groundedsam} and invert the resulting masks.

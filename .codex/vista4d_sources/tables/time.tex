@@ -1,0 +1,20 @@
+\begin{table*}
+    \caption{\Paragraphnoskip{Preprocessing and inference time} With user-defined dynamic keywords, inference preprocessing involves segmentation (Grounding SAM 2) and 4D reconstruction ($\pi^3$). Model inference are all 50 steps. We run everything on an NVIDIA A100 80GB.}
+    \label{tab:preprocess_inference}
+    \centering
+    \begin{adjustbox}{max width=\linewidth}
+        \begin{tabular}{l l l c c c}
+            \toprule
+            Method & Base model & Resolution & Segmentation (s) & 4D reconstruction (s) & Model inference (s) \\
+            \midrule
+            ReCamMaster & \texttt{Wan2.1-T2V-1.3B} & $832 \times 480$ & - & \multirow{2}{*}{\makecell{\textit{Implicit prior,}\\\textit{no 4D reconstruction}}} & 523.2 \\
+            CamCloneMaster & \texttt{Wan2.1-T2V-1.3B} & $832 \times 480$ & - & & 1062 \\ \hline
+            TrajectoryCrafter & \texttt{CogVideoX-Fun-5B} &  $672 \times 384$ & - & & 170.1 \\
+            EX-4D & \texttt{Wan2.1-T2V-14B} & $672 \times 384$ & - & \multirow{4}{*}{\makecell{\textit{Explicit prior,}\\\textit{all using $\pi^3$}\\\textit{with time:}\\3.110}} & 698.9 \\
+            GEN3C & \texttt{Cosmos1.0Diffusion-7BVideo2World} & $1280 \times 704$ & - & & 1110 \\
+            \textbf{\methodname (ours)} & \texttt{Wan2.1-T2V-14B} & $672 \times 384$ & \multirow{2}{*}{22.75} & & 1195 \\
+            \textbf{\methodname (ours)} & \texttt{Wan2.1-T2V-14B} & $1280 \times 720$ & & & 9924 \\
+            \bottomrule
+        \end{tabular}
+    \end{adjustbox}
+\end{table*}
